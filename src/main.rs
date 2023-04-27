@@ -12,7 +12,7 @@ async fn proxy(
     let host = host.host().split(":").collect::<Vec<&str>>();
     let host = host.get(0).expect("Error finding host");
     
-    let url = format!("http://{}:32768{}", host, request.path());
+    let url = format!("http://host.docker.internal:32768{}", request.path());
 
     let mut new_req = client.request_from(url, request.head());
     let mut new_req = new_req.send_body(bytes).await.unwrap();
@@ -34,7 +34,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new().route("/{tail:.*}", web::to(proxy))
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("0.0.0.0", 80))?
     .run()
     .await
 }

@@ -1,0 +1,21 @@
+version: '3.9'
+
+name: reverse-proxy
+
+services:
+
+  #####################
+  # RECAPTCHA SERVICE #
+  #####################
+  
+  api:
+    container_name: reverse-proxy
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PROFILE: dev # Faster build times for local develpment, this will be automatically changed to release if omitted
+    ports:
+      - "127.0.0.1:0:80"
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
