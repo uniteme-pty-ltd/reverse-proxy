@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 actix-web = { version = "4", features = ["macros", "compress-gzip", "rustls"] }
 awc = "3"
+rustls = "0.20"
+rcgen = "0.10"
 
 [[bin]]
 name = "reverse_proxy"

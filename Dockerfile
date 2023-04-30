@@ -22,6 +22,6 @@ FROM rust-final as final
 COPY --from=build /app/target/*/reverse_proxy /reverse_proxy
 
 # Exponse the running port
-EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT ["/reverse_proxy"]
