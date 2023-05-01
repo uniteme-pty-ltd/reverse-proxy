@@ -4,9 +4,9 @@ name: reverse-proxy
 
 services:
 
-  #####################
-  # RECAPTCHA SERVICE #
-  #####################
+  #################
+  # REVERSE PROXY #
+  #################
   
   api:
     container_name: reverse-proxy
