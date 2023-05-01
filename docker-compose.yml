@@ -1,0 +1,23 @@
+version: '3.9'
+
+name: reverse-proxy
+
+services:
+
+  #################
+  # REVERSE PROXY #
+  #################
+  
+  api:
+    container_name: reverse-proxy
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PROFILE: dev # Faster build times for local develpment, this will be automatically changed to release if omitted
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      USE_SELF_SIGNED: "true"
+      DOMAIN_MAPS: localhost:example.com
