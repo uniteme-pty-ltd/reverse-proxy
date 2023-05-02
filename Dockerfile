@@ -22,6 +22,9 @@ FROM rust-final as final
 COPY --from=build /app/target/*/reverse_proxy /reverse_proxy
 
 # Exponse the running port
-EXPOSE 443
+EXPOSE 80 443
+
+HEALTHCHECK --interval=3s --timeout=3s --start-period=10s --retries=5 CMD [ "curl -f http://127.0.0.1/health || exit 1" ]
+# HEALTHCHECK NONE
 
 ENTRYPOINT ["/reverse_proxy"]
