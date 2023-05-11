@@ -20,4 +20,4 @@ services:
       - "443:443"
     environment:
       USE_SELF_SIGNED: "true"
-      DOMAIN_MAPS: localhost:example.com
+      DOMAIN_MAPS: localhost|example.com:80

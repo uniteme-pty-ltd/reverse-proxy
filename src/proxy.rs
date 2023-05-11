@@ -61,10 +61,10 @@ async fn proxy_request(req: HttpRequest, body: web::Bytes) -> HttpResponse {
             let mut domains: Vec<DomainMap> = Vec::new();
 
             for map in raw.into_iter() {
-                let map = map.split(":").collect::<Vec<&str>>();
+                let map = map.split("|").collect::<Vec<&str>>();
 
                 let domain = map.get(0).expect("Error finding domain");
-                let target_host = map.get(1).expect("Error finding target ip");
+                let target_host = map.get(1).expect("Error finding target ip and port");
 
                 domains.push(DomainMap {
                     domain: domain.to_string(),
@@ -93,7 +93,7 @@ async fn proxy_request(req: HttpRequest, body: web::Bytes) -> HttpResponse {
             }
         };
 
-        format!("http://{}:80{}", target_host, path)
+        format!("http://{}{}", target_host, path)
     };
 
     let mut proxy_res = client
