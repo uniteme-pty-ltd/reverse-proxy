@@ -4,7 +4,6 @@ use settings::*;
 mod cert;
 mod proxy;
 mod settings;
-mod health;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -14,7 +13,7 @@ async fn main() -> std::io::Result<()> {
         // We should use a self-signed certificate in here instead of above
     }
 
-    HttpServer::new(|| App::new().wrap(middleware::Compress::default()).route("/{tail:.*}", web::to(proxy::route)).service(health::route))
+    HttpServer::new(|| App::new().wrap(middleware::Compress::default()).route("/{tail:.*}", web::to(proxy::route)))
         .bind(("0.0.0.0", 80))
         .expect("Couldn't bind to port 80")
         .bind_rustls(("0.0.0.0", 443), cert::make_rustls_config(cert))
