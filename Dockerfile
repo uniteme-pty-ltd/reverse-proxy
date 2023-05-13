@@ -8,6 +8,7 @@ RUN echo "fn main() {}" > /app/dummy.rs
 COPY Cargo.toml /app/Cargo.toml
 COPY Cargo.lock /app/Cargo.lock
 RUN sed -i 's#src/main.rs#dummy.rs#' /app/Cargo.toml
+COPY acme-lib /app/acme-lib
 RUN cargo build --profile=$PROFILE
 
 # Build the application

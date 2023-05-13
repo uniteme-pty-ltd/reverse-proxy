@@ -8,6 +8,9 @@ actix-web = { version = "4", features = ["macros", "compress-gzip", "rustls"] }
 awc = "3"
 rustls = "0.20"
 rcgen = "0.10"
+# acme-lib = "0.8"
+acme-lib = { path = "./acme-lib" }
+actix-rt = "2"
 
 [[bin]]
 name = "reverse_proxy"

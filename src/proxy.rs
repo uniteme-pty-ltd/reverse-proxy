@@ -55,7 +55,7 @@ async fn proxy_request(req: HttpRequest, body: web::Bytes) -> HttpResponse {
 
         let domains = {
             let domain_names_setting = setting("DOMAIN_MAPS").expect("No domain maps found");
-            
+
             let raw = domain_names_setting.split(" ").collect::<Vec<&str>>();
 
             let mut domains: Vec<DomainMap> = Vec::new();
