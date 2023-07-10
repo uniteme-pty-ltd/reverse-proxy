@@ -19,5 +19,6 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      USE_SELF_SIGNED: "true"
-      DOMAIN_MAPS: localhost|example.com:80
+      USE_SELF_SIGNED_CERT: false
+      USE_LETSENCRYPT_PROD: false
+      DOMAIN_MAPS: localhost.com|example.com:80

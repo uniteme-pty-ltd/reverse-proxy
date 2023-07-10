@@ -60,7 +60,18 @@ struct ServerChallenges {
 }
 
 pub async fn request() -> Certificate {
-    let url = DirectoryUrl::LetsEncryptStaging;
+    let url = match setting("USE_LETSENCRYPT_PROD") {
+        Some(use_prod) => {
+            if "true".to_owned() == use_prod {
+                DirectoryUrl::LetsEncrypt
+            } else if "false".to_owned() == use_prod {
+                DirectoryUrl::LetsEncryptStaging
+            } else {
+                panic!("USE_LETSENCRYPT_PROD is not a valid lowercase boolean");
+            }
+        }
+        None => panic!("USE_LETSENCRYPT_PROD is not set"),
+    };
     let persist = FilePersist::new(".");
     let dir = Directory::from_url(persist, url).expect("Couldn't create directory");
     let acc = dir
@@ -127,7 +138,7 @@ pub async fn request() -> Certificate {
         std::thread::sleep(std::time::Duration::from_secs(2));
 
         for challenge in challenges.into_iter() {
-            challenge.validate(0).expect("Couldn't validate challenge");
+            challenge.validate(5000).expect("Couldn't validate challenge");
         }
 
         ord_new.refresh().expect("Couldn't refresh order");

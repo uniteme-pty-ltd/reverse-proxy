@@ -9,11 +9,19 @@ mod settings;
 async fn main() -> std::io::Result<()> {
     let certificate: cert::Certificate;
 
-    if Some("true".to_owned()) == setting("USE_SELF_SIGNED_CERT") {
+    let use_self_signed_cert = setting("USE_SELF_SIGNED_CERT");
+
+    if use_self_signed_cert.is_none() {
+        panic!("USE_SELF_SIGNED_CERT is not set");
+    }
+
+    let use_self_signed_cert = use_self_signed_cert.unwrap();
+
+    if "true".to_owned() == use_self_signed_cert {
         // We should use a self-signed certificate in here instead of above
         println!("Using self-signed certificate");
         certificate = cert::self_signed::generate();
-    } else {
+    } else if "false".to_owned() == use_self_signed_cert {
         println!("Using let's encrypt certificate");
         if let Some(loaded_cert) = cert::load_cert() {
             println!("Existing certificate founded and loaded");
@@ -24,6 +32,8 @@ async fn main() -> std::io::Result<()> {
             cert::save_cert(&certificate);
             println!("Certificate generated and validated");
         }
+    } else {
+        panic!("USE_SELF_SIGNED_CERT is not a valid lowercase boolean");
     }
 
     println!("Starting proxy");

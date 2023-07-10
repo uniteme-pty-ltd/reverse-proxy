@@ -12,9 +12,9 @@ pub async fn route(req: HttpRequest, body: web::Bytes) -> impl Responder {
         return res;
     }
 
-    if let Some(res) = force_ssl(&req) {
-        return res;
-    }
+    // if let Some(res) = force_ssl(&req) {
+    //     return res;
+    // }
 
     proxy_request(req, body).await
 }
